@@ -2,17 +2,31 @@ const chai = require('chai');
 const assert = chai.assert;
 
 const Solver = require('../controllers/sudoku-solver.js');
-puzzlesAndSolutions = require('../controllers/puzzle-strings.js')
+const { puzzlesAndSolutions } = require('../controllers/puzzle-strings.js')
 const solver = new Solver();
 
 const randomPlacement = () => Math.floor(Math.random() * 9);
 
 suite('Unit Tests', () => {
 
+    test('parse puzzle', () => {
+        const puzzleString = puzzlesAndSolutions[0][0];
+        const puzzle = solver.parse(puzzleString);
+
+        assert.equal(puzzle.length, 9)
+        for (let row = 0; row < 9; row++) {
+            assert.equal(puzzle[row].length, 9)
+            for (let col = 0; col < 9; col++) {
+                assert.isAtLeast(puzzle[row][col], 0);
+                assert.isAtMost(puzzle[row][col], 9);
+            }
+        }
+    })
+
     test('handle valid puzzle', () => {
         const puzzle = puzzlesAndSolutions[0][0];
 
-        assert.doesNotThrow(solver.validate(puzzle));
+        assert.doesNotThrow(() => solver.validate(puzzle));
     });
 
     test('handle invalid characters', () => {
@@ -31,86 +45,84 @@ suite('Unit Tests', () => {
     })
 
     test('handle valid row placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
-        const solution = puzzlesAndSolutions[0][1];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
+        const solution = solver.parse(puzzlesAndSolutions[0][1]);
 
         const row = randomPlacement();
         const column = randomPlacement();
-        value = solution[row * 9 + column];
+        const value = solution[row][column];
 
-        assert.isTrue(checkRowPlacement(puzzle, row, column, value));
+        assert.isTrue(solver.checkRowPlacement(puzzle, row, column, value));
     })
 
     test('handle invalid row placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
 
         const row = 0;
         const column = 1;
-        value = 1;
+        const value = 1;
 
-        assert.isFalse(checkRowPlacement(puzzle, row, column, value));
+        assert.isFalse(solver.checkRowPlacement(puzzle, row, column, value));
     })
 
     test('handle valid column placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
-        const solution = puzzlesAndSolutions[0][1];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
+        const solution = solver.parse(puzzlesAndSolutions[0][1]);
 
         const row = randomPlacement();
         const column = randomPlacement();
-        value = solution[row * 9 + column];
+        const value = solution[row][column];
 
-        assert.isTrue(checkColPlacement(puzzle, row, column, value));
+        assert.isTrue(solver.checkColPlacement(puzzle, row, column, value));
     })
 
     test('handle invalid column placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
-        const solution = puzzlesAndSolutions[0][1];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
 
         const row = 1;
         const column = 0;
-        value = 1;
+        const value = 1;
 
-        assert.isFalse(checkColPlacement(puzzle, row, column, value));
+        assert.isFalse(solver.checkColPlacement(puzzle, row, column, value));
     })
 
     test('handle valid region placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
-        const solution = puzzlesAndSolutions[0][1];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
+        const solution = solver.parse(puzzlesAndSolutions[0][1]);
 
         const row = randomPlacement();
         const column = randomPlacement();
-        value = solution[row * 9 + column];
+        const value = solution[row][column];
 
-        assert.isTrue(checkRegionPlacement(puzzle, row, column, value));
+        assert.isTrue(solver.checkRegionPlacement(puzzle, row, column, value));
     })
 
     test('handle invalid region placement', () => {
-        const puzzle = puzzlesAndSolutions[0][0];
-        const solution = puzzlesAndSolutions[0][1];
+        const puzzle = solver.parse(puzzlesAndSolutions[0][0]);
 
         const row = 1;
         const column = 0;
-        value = 1;
+        const value = 1;
 
-        assert.isFalse(checkRegionPlacement(puzzle, row, column, value));
+        assert.isFalse(solver.checkRegionPlacement(puzzle, row, column, value));
     })
 
     test('handle valid puzzle', () => {
         const puzzle = puzzlesAndSolutions[0][0];
 
-        assert.doesNotThrow(solver.solve(puzzle));
+        assert.doesNotThrow(() => solver.solve(puzzle));
     });
 
     test('handle invalid puzzle', () => {
         const puzzle = puzzlesAndSolutions[0][0];
         const indexToChange = 15;
         const invalidCharacter = 'a'
-        const invalidatedPuzzle = puzzle.slice(0, indexToChange) + invalidCharacter + puzzle.slice(indexToChange + 1);
+        let invalidatedPuzzle = puzzle.slice(0, indexToChange) + invalidCharacter + puzzle.slice(indexToChange + 1);
 
         assert.throws(() => solver.solve(invalidatedPuzzle), 'Invalid characters in puzzle');
 
         invalidatedPuzzle = '123456789'
-        assert.throws(() => solver.solve(invalidPuzzle), 'Expected puzzle to be 81 characters long');
+        assert.throws(() => solver.solve(invalidatedPuzzle), 'Expected puzzle to be 81 characters long');
     })
 
     test('solve valid puzzle', () => {
