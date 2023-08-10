@@ -29,7 +29,7 @@ suite('Functional Tests', () => {
     chai
       .request(server)
       .keepOpen()
-      .send({ puzzle: puzzle })
+      .post('/api/solve')
       .end(function (err, res) {
         assert.equal(res.status, 200);
         assert.equal(res.type, 'application/json');
@@ -47,6 +47,7 @@ suite('Functional Tests', () => {
     chai
       .request(server)
       .keepOpen()
+      .post('/api/solve')
       .send({ puzzle: invalidatedPuzzle })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -63,6 +64,7 @@ suite('Functional Tests', () => {
     chai
       .request(server)
       .keepOpen()
+      .post('/api/solve')
       .send({ puzzle: invalidatedPuzzle })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -81,6 +83,7 @@ suite('Functional Tests', () => {
     chai
       .request(server)
       .keepOpen()
+      .post('/api/solve')
       .send({ puzzle: invalidatedPuzzle })
       .end(function (err, res) {
         assert.equal(res.status, 200);
