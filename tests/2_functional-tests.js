@@ -104,7 +104,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'A2',
-        value: 3
+        value: '3'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -124,7 +124,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'A2',
-        value: 4
+        value: '4'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -145,7 +145,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'A2',
-        value: 1
+        value: '1'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -167,7 +167,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'B5',
-        value: 1
+        value: '1'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -212,7 +212,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: invalidatedPuzzle,
         coordinate: 'A1',
-        value: 1
+        value: '1'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -233,7 +233,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: invalidatedPuzzle,
         coordinate: 'A1',
-        value: 1
+        value: '1'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -253,7 +253,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'J9',
-        value: 1
+        value: '1'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);
@@ -273,7 +273,7 @@ suite('Functional Tests', () => {
       .send({
         puzzle: puzzle,
         coordinate: 'A1',
-        value: 15
+        value: '15'
       })
       .end(function (err, res) {
         assert.equal(res.status, 200);

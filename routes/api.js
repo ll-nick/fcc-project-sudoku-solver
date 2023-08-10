@@ -11,9 +11,9 @@ module.exports = function (app) {
       try {
         const puzzleStr = req.body.puzzle;
         const coordinateStr = req.body.coordinate;
-        const value = req.body.value;
+        const valueStr = req.body.value;
 
-        res.json(solver.checkValuePlacement(puzzleStr, coordinateStr, value));
+        res.json(solver.checkValuePlacement(puzzleStr, coordinateStr, valueStr));
       } catch (err) {
         res.json({ error: err.message });
       }

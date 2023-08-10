@@ -145,8 +145,9 @@ class SudokuSolver {
     const puzzle = this.parse(puzzleStr);
 
     const [row, col] = this.parseCoordinate(coordinateStr);
-    if (!value) throw new Error('Required field(s) missing')
-    if (!Number.isInteger(value) || value < 1 || value > 9) throw new Error('Invalid value');
+    if (!valueStr) throw new Error('Required field(s) missing');
+    if (!valueStr.match(/^[1-9]$/)) throw new Error('Invalid value');
+    const value = parseInt(valueStr);
 
     let valid = true;
     let conflict = [];
