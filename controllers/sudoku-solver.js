@@ -138,7 +138,9 @@ class SudokuSolver {
     return null;
   }
 
-  checkValuePlacement(puzzleStr, coordinateStr, value) {
+  checkValuePlacement(puzzleStr, coordinateStr, valueStr) {
+    // Annoyingly, in the value check, the error message is expected to have a plural s
+    if (!puzzleStr) throw new Error('Required field(s) missing')
     this.validate(puzzleStr);
     const puzzle = this.parse(puzzleStr);
 
