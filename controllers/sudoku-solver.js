@@ -30,7 +30,7 @@ class SudokuSolver {
   }
 
   checkRowPlacement(puzzle, row, col, value) {
-    for (const currentCol of puzzle[row]) {
+    for (let currentCol = 0; currentCol < 9; currentCol++) {
       if (col === currentCol) continue;
       if (puzzle[row][currentCol] === value) return false;
     }
