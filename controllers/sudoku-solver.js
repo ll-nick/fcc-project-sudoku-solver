@@ -42,6 +42,10 @@ class SudokuSolver {
   }
 
   checkRowPlacement(puzzle, row, col, value) {
+    if (puzzle[row][col] !== 0) {
+      if (puzzle[row][col] === value) return true;
+      return false;
+    }
     for (let currentCol = 0; currentCol < 9; currentCol++) {
       if (col === currentCol) continue;
       if (puzzle[row][currentCol] === value) return false;
@@ -50,6 +54,10 @@ class SudokuSolver {
   }
 
   checkColPlacement(puzzle, row, col, value) {
+    if (puzzle[row][col] !== 0) {
+      if (puzzle[row][col] === value) return true;
+      return false;
+    }
     for (let currentRow = 0; currentRow < 9; currentRow++) {
       if (row === currentRow) continue;
       if (puzzle[currentRow][col] === value) return false;
@@ -58,6 +66,11 @@ class SudokuSolver {
   }
 
   checkRegionPlacement(puzzle, row, col, value) {
+    if (puzzle[row][col] !== 0) {
+      if (puzzle[row][col] === value) return true;
+      return false;
+    }
+
     const startRow = Math.floor(row / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
 
