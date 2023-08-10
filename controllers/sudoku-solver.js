@@ -67,7 +67,6 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-    try {
       this.validate(puzzleString);
 
       let puzzle = this.parse(puzzleString);
@@ -76,9 +75,6 @@ class SudokuSolver {
       }
 
       throw new Error('Puzzle cannot be solved')
-    } catch (err) {
-      throw err;
-    }
   }
 
   solveImpl(puzzle) {
