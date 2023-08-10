@@ -17,6 +17,18 @@ class SudokuSolver {
     return puzzle;
   }
 
+  parseCoordinate(coordinate) {
+    if (!coordinate) throw new Error('Required field(s) missing');
+    if (!coordinate.match(/^[a-iA-I][1-9]$/)) throw new Error('Invalid coordinate');
+
+    const normalizedCoordinate = coordinate.toUpperCase()
+
+    const row = normalizedCoordinate.charCodeAt(0) - 'A'.charCodeAt(0);
+    const column = parseInt(normalizedCoordinate.charAt(1)) - 1;
+
+    return [row, column]
+  }
+
   stringify(puzzle) {
     let result = '';
 
@@ -67,14 +79,14 @@ class SudokuSolver {
   }
 
   solve(puzzleString) {
-      this.validate(puzzleString);
+    this.validate(puzzleString);
 
-      let puzzle = this.parse(puzzleString);
-      if (this.solveImpl(puzzle)) {
-        return this.stringify(puzzle);
-      }
+    let puzzle = this.parse(puzzleString);
+    if (this.solveImpl(puzzle)) {
+      return this.stringify(puzzle);
+    }
 
-      throw new Error('Puzzle cannot be solved')
+    throw new Error('Puzzle cannot be solved')
   }
 
   solveImpl(puzzle) {
@@ -111,6 +123,38 @@ class SudokuSolver {
       }
     }
     return null;
+  }
+
+  checkValuePlacement(puzzleStr, coordinateStr, value) {
+    this.validate(puzzleStr);
+    const puzzle = this.parse(puzzleStr);
+
+    const [row, col] = this.parseCoordinate(coordinateStr);
+    if (!value) throw new Error('Required field(s) missing')
+    if (!Number.isInteger(value) || value < 1 || value > 9) throw new Error('Invalid value');
+
+    let valid = true;
+    let conflict = [];
+    if (!this.checkRowPlacement(puzzle, row, col, value)) {
+      valid = false;
+      conflict.push('row');
+    }
+    if (!this.checkColPlacement(puzzle, row, col, value)) {
+      valid = false;
+      conflict.push('column');
+    }
+    if (!this.checkRegionPlacement(puzzle, row, col, value)) {
+      valid = false;
+      conflict.push('region');
+    }
+
+    if (valid) {
+      return { valid: true };
+    }
+    return {
+      valid: false,
+      conflict: conflict
+    };
   }
 
 }
